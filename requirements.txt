@@ -1,0 +1,21 @@
+# --- Treinamento ---
+transformers
+datasets
+accelerate
+peft
+bitsandbytes
+sentencepiece
+torch
+kagglehub
+safetensors
+numpy
+pandas
+scikit-learn
+
+# --- API ---
+fastapi
+uvicorn[standard]
+python-multipart
+aiofiles
+pydantic>=2.0
+orjson
