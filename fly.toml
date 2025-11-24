@@ -1,23 +1,28 @@
-# fly.toml app configuration file generated for skill-bridge-api-gen-ai-python on 2025-11-24T01:48:36Z
-#
-# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
-#
+    app = "skillbridge-genai"
 
-app = 'skill-bridge-api-gen-ai-python'
-primary_region = 'gru'
+kill_signal = "SIGINT"
+kill_timeout = 5
 
 [build]
+  dockerfile = "Dockerfile"
 
-[http_service]
+[env]
+  PORT = "8000"
+
+[[services]]
+  protocol = "tcp"
   internal_port = 8000
-  force_https = true
-  auto_stop_machines = 'stop'
-  auto_start_machines = true
-  min_machines_running = 0
-  processes = ['app']
+  processes = ["app"]
 
-[[vm]]
-  memory = '1gb'
-  cpu_kind = 'shared'
-  cpus = 1
-  memory_mb = 1024
+  [services.concurrency]
+    type = "requests"
+    soft_limit = 10
+    hard_limit = 20
+
+  [[services.ports]]
+    port = 80
+    handlers = ["http"]
+
+  [[services.ports]]
+    port = 443
+    handlers = ["tls", "http"]
